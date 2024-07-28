@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import {
+  UsersIcon,
+  CalendarIcon,
+  MapPinIcon,
+  AcademicCapIcon,
+  EnvelopeIcon,
+} from "@heroicons/react/24/outline";
 
 const LandingPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -14,107 +20,90 @@ const LandingPage: React.FC = () => {
       setError("Please enter a valid email address.");
       return;
     }
-    // Here you would typically send the email to your backend
     console.log("Email submitted:", email);
     setIsSubmitted(true);
     setError("");
   };
 
+  const features = [
+    { icon: UsersIcon, text: "Interest-based Matching" },
+    { icon: CalendarIcon, text: "Smart Scheduling" },
+    { icon: MapPinIcon, text: "Safe Public Venues" },
+    { icon: AcademicCapIcon, text: "Skill Level Pairing" },
+  ];
+
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Welcome to Sigma
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Connect with like-minded individuals through real-world meetups
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+      <div className="container mx-auto px-4 py-16">
+        <nav className="flex justify-between items-center mb-16">
+          <h1 className="text-3xl font-bold">Sigma</h1>
+          <a
+            href="#"
+            className="bg-white text-purple-600 px-4 py-2 rounded-full font-semibold hover:bg-opacity-90 transition duration-300"
+          >
+            Sign In
+          </a>
+        </nav>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <ul className="mt-3 list-disc list-inside text-sm text-gray-600">
-            <li>Interest-based matching</li>
-            <li>Automatic meetup scheduling</li>
-            <li>Safe, public meetup locations</li>
-            <li>Expertise level matching</li>
-          </ul>
-
-          {!isSubmitted ? (
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email address
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <EnvelopeIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </div>
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="md:w-1/2 mb-10 md:mb-0 mr-6">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              Unleash Your Passion. Find Your Match.
+            </h2>
+            <p className="text-xl mb-8">
+              Dive into a world where your interests lead the way. Sigma
+              connects you with others who share your passions. Turn your
+              hobbies into unforgettable experiences.
+            </p>
+            {!isSubmitted ? (
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <div className="relative flex-grow">
+                  <EnvelopeIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
                   <input
                     type="email"
-                    id="email"
-                    className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email for early access"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-600"
                     required
                   />
                 </div>
-              </div>
-
-              <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300"
                 >
-                  Get Early Access
+                  Join Waitlist
                 </button>
+              </form>
+            ) : (
+              <div
+                className="bg-green-500 text-white p-4 rounded-lg"
+                role="alert"
+              >
+                <p className="font-bold">Success!</p>
+                <p>You`re on the list! We`ll notify you when Sigma launches.</p>
               </div>
-            </form>
-          ) : (
-            <div className="rounded-md bg-green-50 p-4 mt-8">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg
-                    className="h-5 w-5 text-green-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-green-800">
-                    Success!
-                  </h3>
-                  <div className="mt-2 text-sm text-green-700">
-                    <p>
-                      Thank you for your interest. We`ll notify you when the
-                      beta is ready!
-                    </p>
-                  </div>
-                </div>
+            )}
+            {error && <p className="text-red-300 mt-2">{error}</p>}
+          </div>
+          <div className="md:w-1/2 grid grid-cols-2 gap-6">
+            {features.map((Feature, index) => (
+              <div
+                key={index}
+                className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-lg"
+              >
+                <Feature.icon className="h-12 w-12 mb-4 text-white" />
+                <h3 className="text-xl font-semibold mb-2">{Feature.text}</h3>
+                <p className="text-sm text-gray-200">
+                  Experience the power of real connections with Sigma`s smart
+                  features.
+                </p>
               </div>
-            </div>
-          )}
-
-          {error && (
-            <p className="mt-2 text-sm text-red-600" id="email-error">
-              {error}
-            </p>
-          )}
+            ))}
+          </div>
         </div>
       </div>
     </div>
