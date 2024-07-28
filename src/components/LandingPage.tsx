@@ -48,12 +48,14 @@ const LandingPage: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="md:w-1/2 mb-10 md:mb-0 mr-6">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Unleash Your Passion. Find Your Match.
+              Meet new people in the real world.
             </h2>
             <p className="text-xl mb-8">
-              Dive into a world where your interests lead the way. Sigma
-              connects you with others who share your passions. Turn your
-              hobbies into unforgettable experiences.
+              Welcome to Sigma, the app that makes it easy to connect with
+              others who share your passions. Whether you`re a beginner or a
+              pro, Sigma helps you find genuine, like-minded individuals. Create
+              your profile, share your interests, and start making real
+              connections today.
             </p>
             {!isSubmitted ? (
               <form
