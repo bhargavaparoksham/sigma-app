@@ -14,15 +14,34 @@ const LandingPage: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) {
       setError("Please enter a valid email address.");
       return;
     }
-    console.log("Email submitted:", email);
-    setIsSubmitted(true);
-    setError("");
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      console.log("Response:", response);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to join waitlist");
+      }
+
+      setIsSubmitted(true);
+      setError("");
+    } catch (error: any) {
+      console.error("Error:", error);
+      setError(error.message || "Failed to join waitlist. Please try again.");
+    }
   };
 
   const features = [
