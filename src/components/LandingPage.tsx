@@ -8,10 +8,14 @@ import {
   AcademicCapIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
+import LandingCarousel from "./LandingCarousel";
+import { set } from "mongoose";
+import Spinner from "./Spinner";
 
 const LandingPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,6 +25,7 @@ const LandingPage: React.FC = () => {
       return;
     }
     try {
+      setIsLoading(true);
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: {
@@ -29,16 +34,16 @@ const LandingPage: React.FC = () => {
         body: JSON.stringify({ email }),
       });
 
-      console.log("Response:", response);
-
       if (!response.ok) {
         const data = await response.json();
         throw new Error(data.error || "Failed to join waitlist");
       }
 
+      setIsLoading(false);
       setIsSubmitted(true);
       setError("");
     } catch (error: any) {
+      setIsLoading(false);
       console.error("Error:", error);
       setError(error.message || "Failed to join waitlist. Please try again.");
     }
@@ -53,9 +58,7 @@ const LandingPage: React.FC = () => {
 
         <div className="flex justify-center items-center w-full">
           <div className="lg:w-1/2 mb-10 lg:mb-0 mx-16 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Make new friends in the real world.
-            </h2>
+            <LandingCarousel />
             {!isSubmitted ? (
               <form
                 onSubmit={handleSubmit}
@@ -74,9 +77,10 @@ const LandingPage: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300"
+                  disabled={isLoading}
+                  className="flex bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300 min-w-32 justify-center"
                 >
-                  Join Waitlist
+                  {isLoading ? <Spinner /> : "Join Waitlist"}
                 </button>
               </form>
             ) : (
