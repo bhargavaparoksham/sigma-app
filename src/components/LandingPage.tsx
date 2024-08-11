@@ -44,32 +44,18 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  const features = [
-    { icon: UsersIcon, text: "Interest-based Matching" },
-    { icon: CalendarIcon, text: "Smart Scheduling" },
-    { icon: MapPinIcon, text: "Safe Public Venues" },
-    { icon: AcademicCapIcon, text: "Skill Level Pairing" },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+    <div className="min-h-screen bg-white text-black">
       <div className="container mx-auto px-4 py-16">
         <nav className="flex justify-between items-center mb-16">
           <h1 className="text-3xl font-bold">Sigma</h1>
         </nav>
 
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="md:w-1/2 mb-10 md:mb-0 mr-6">
+        <div className="flex justify-center items-center w-full">
+          <div className="lg:w-1/2 mb-10 lg:mb-0 mx-16 text-center">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Meet new people in the real world.
+              Make new friends in the real world.
             </h2>
-            <p className="text-xl mb-8">
-              Welcome to Sigma, the app that makes it easy to connect with
-              others who share your passions. Whether you`re a beginner or a
-              pro, Sigma helps you find genuine, like-minded individuals. Create
-              your profile, share your interests, and start making real
-              connections today.
-            </p>
             {!isSubmitted ? (
               <form
                 onSubmit={handleSubmit}
@@ -103,21 +89,6 @@ const LandingPage: React.FC = () => {
               </div>
             )}
             {error && <p className="text-red-300 mt-2">{error}</p>}
-          </div>
-          <div className="md:w-1/2 grid grid-cols-2 gap-6">
-            {features.map((Feature, index) => (
-              <div
-                key={index}
-                className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-lg"
-              >
-                <Feature.icon className="h-12 w-12 mb-4 text-white" />
-                <h3 className="text-xl font-semibold mb-2">{Feature.text}</h3>
-                <p className="text-sm text-gray-200">
-                  Experience the power of real connections with Sigma`s smart
-                  features.
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </div>
