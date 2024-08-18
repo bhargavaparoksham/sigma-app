@@ -54,6 +54,9 @@ const LandingPage: React.FC = () => {
       <div className="container mx-auto px-4 py-16">
         <nav className="flex justify-between items-center mb-16">
           <h1 className="text-3xl font-bold">Sigma</h1>
+          <button className="bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition duration-300">
+            Sign In
+          </button>
         </nav>
 
         <div className="flex justify-center items-center w-full">
