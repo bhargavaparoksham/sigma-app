@@ -1,62 +1,8 @@
-import type { Mongoose } from "mongoose";
-import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
-// Extend the NodeJS global type
-declare global {
-  var mongoose: {
-    conn: Mongoose | null;
-    promise: Promise<Mongoose> | null;
-  };
-}
-
-// Connect to MongoDB
-const MONGODB_URI = process.env.MONGODB_URI as string;
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
-
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function dbConnect() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
-  }
-
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
-  return cached.conn;
-}
-
-// Define Waitlist schema
-const waitlistSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  createdAt: { type: Date, default: Date.now },
-});
-
-const Waitlist =
-  mongoose.models.Waitlist || mongoose.model("Waitlist", waitlistSchema);
+// Initialize Prisma Client
+const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   const { email } = await request.json();
@@ -66,16 +12,18 @@ export async function POST(request: Request) {
   }
 
   try {
-    await dbConnect();
-    const newEntry = new Waitlist({ email });
-    await newEntry.save();
+    const newEntry = await prisma.waitlist.create({
+      data: {
+        email: email,
+      },
+    });
     return NextResponse.json(
       { message: "Successfully added to waitlist" },
       { status: 201 }
     );
   } catch (error: any) {
-    if (error.code === 11000) {
-      // Duplicate key error
+    if (error.code === "P2002") {
+      // Unique constraint violation (email already exists)
       return NextResponse.json(
         { error: "Email already exists in waitlist" },
         { status: 409 }
