@@ -9,7 +9,6 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import LandingCarousel from "./LandingCarousel";
-import { set } from "mongoose";
 import Spinner from "./Spinner";
 
 const LandingPage: React.FC = () => {
